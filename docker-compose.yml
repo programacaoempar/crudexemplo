@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  demo-spring-boot-db:
+    image: postgres
+    container_name: demo-spring-boot-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=testdb
+      - POSTGRES_PASSWORD=123456
+  demo-spring-boot:
+    image: demo-spring-boot:1
+    depends_on:
+      - demo-spring-boot-db
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/springboot-docker-compose-app
+    ports:
+      - "8081:8081"
